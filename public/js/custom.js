@@ -77,7 +77,7 @@ function store_form_data(table, method, url, formData) {
                 $.each(data.errors, function (key, value) {
                     $('#store_or_update_form #' + key).addClass('is-invalid');
                     $('#store_or_update_form #' + key).parent().append(
-                        '<div class="error invalid-tooltip d-block">' + value + '</div>');
+                        '<small class="error text-danger">' + value + '</small>');
                 });
             } else {
                 notification(data.status, data.message);
@@ -93,6 +93,38 @@ function store_form_data(table, method, url, formData) {
         },
         error: function (xhr, ajaxOption, thrownError) {
             console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
+        }
+    });
+}
+
+function delete_data(id, url, table, row, name) {
+    Swal.fire({
+        title: 'Are you sure to delete ' + name + ' data?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                dataType: "JSON",
+            }).done(function (response) {
+                if (response.status == "success") {
+                    Swal.fire("Deleted", response.message, "success").then(function () {
+                        table.row(row).remove().draw(false);
+                    });
+                }
+            }).fail(function () {
+                swal.fire('Oops...', "Somthing went wrong with ajax!", "error");
+            });
         }
     });
 }
