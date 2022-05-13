@@ -18,11 +18,11 @@
                 <div class="row">
                     <input type="hidden" name="update_id" id="update_id">
                     <x-form.textbox labelName = "Menu Name" name = "menu_name" required = "required" col="col-md-12" placeholder = "Enter Menu Name"/>
-                    <x-form.selectbox labelName = "Deletable" name = "deletable" required = "required" col = "col-md-12" class="select">
-                        @foreach (DELETABLE as $key => $item)
-                            <option value="{{ $key }}">{{ $item }}</option>
-                        @endforeach
-                    </x-form.selectbox> 
+                    <x-form.selectbox labelName="Deletable" name="deletable" required="required" col="col-md-12" class="selectpicker">
+                      @foreach (DELETABLE as $key => $item)
+                          <option value="{{ $key }}">{{ $item }}</option>
+                      @endforeach
+                  </x-form.selectbox>
                 </div>
             </div>
             <!-- /modal body -->
